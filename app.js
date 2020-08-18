@@ -1,14 +1,13 @@
+require("dotenv").config();
+
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const { ApolloServer } = require("apollo-server-express");
-
-const apolloServer = new ApolloServer({ typeDefs: {}, resolvers: {} });
-
 const indexRouter = require("./routes/index");
+const apolloServer = require("./graphql");
 
 const app = express();
 
