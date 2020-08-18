@@ -4,7 +4,9 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const { graphqlHTTP } = require("express-graphql");
+const { ApolloServer } = require("apollo-server-express");
+
+const apolloServer = new ApolloServer({ typeDefs: {}, resolvers: {} });
 
 const indexRouter = require("./routes/index");
 
@@ -22,14 +24,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema: {},
-    graphiql: true,
-  })
-);
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -45,5 +39,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+apolloServer.applyMiddleware({ app });
 
 module.exports = app;
