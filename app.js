@@ -11,6 +11,8 @@ const apolloServer = require("./graphql");
 
 const app = express();
 
+apolloServer.applyMiddleware({ app });
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -38,7 +40,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-apolloServer.applyMiddleware({ app });
 
 module.exports = app;
