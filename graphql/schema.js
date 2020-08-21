@@ -2,7 +2,7 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type Query {
-    event(id: ID!): Event
+    event(_id: ID!): Event
     events: [Event]!
     user: User
   }
@@ -19,10 +19,10 @@ const typeDefs = gql`
   }
 
   type Event {
-    id: ID!
+    _id: ID!
     name: String
-    desc: String!
-    price: Float!
+    desc: String
+    price: Float
     date: String
   }
 

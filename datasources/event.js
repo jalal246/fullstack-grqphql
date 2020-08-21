@@ -1,8 +1,14 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 
 const { DataSource } = require("apollo-datasource");
 
 class EventAPI extends DataSource {
+  constructor({ Event }) {
+    super();
+    this.Event = Event;
+  }
+
   /**
    * This is a function that gets called by ApolloServer when being setup.
    * This function gets called with the datasource config including things
@@ -14,27 +20,41 @@ class EventAPI extends DataSource {
   }
 
   getEventById({ id }) {
-    return {
-      id,
-      name: "not yet",
-      desc: "this is great",
-      price: "123.34",
-      date: "100/1",
-    };
+    return this.Event.find()
+      .then((events) => {
+        return events.map((event) => ({
+          ...event._doc,
+        }));
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
 
   getAllEvents() {
-    return ["wow", "is this real", "fantastic"];
+    return this.Event.find()
+      .then((events) => {
+        return events.map((event) => ({
+          ...event._doc,
+        }));
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
 
   createEvent({ name, desc, price }) {
-    return {
-      id: "934809",
-      name,
-      desc,
-      price,
-      date: "100/1",
-    };
+    const newEvent = new this.Event({ name, desc, price });
+
+    return newEvent
+      .save()
+      .then((res) => {
+        // eslint-disable-next-line no-underscore-dangle
+        return { ...res._doc };
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
 }
 

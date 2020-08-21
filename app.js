@@ -6,8 +6,25 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
+const mongoose = require("mongoose");
+
 const indexRouter = require("./routes/index");
 const apolloServer = require("./graphql");
+
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.miv45.mongodb.net/${process.env.MONGO_DB_NAME}?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("Connection established");
+  })
+  .catch((err) => {
+    throw new Error(`DB connection err ${err}`);
+  });
 
 const app = express();
 

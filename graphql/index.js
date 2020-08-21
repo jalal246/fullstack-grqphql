@@ -6,9 +6,13 @@ const resolvers = require("./resolvers");
 const EventAPI = require("../datasources/event");
 const UserAPI = require("../datasources/user");
 
+const createStore = require("./utils");
+
+const store = createStore();
+
 // set up any dataSources our resolvers need
 const dataSources = () => ({
-  eventAPI: new EventAPI(),
+  eventAPI: new EventAPI(store),
   userAPI: new UserAPI({}),
 });
 
