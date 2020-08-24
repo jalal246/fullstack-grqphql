@@ -8,6 +8,10 @@ const schema = {
   desc: String,
   price: Number,
   date: String,
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 };
 
 const eventSchema = new Schema(schema);

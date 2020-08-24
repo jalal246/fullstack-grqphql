@@ -26,9 +26,15 @@ const typeDefs = gql`
     date: String
   }
 
+  input UserInput {
+    email: String!
+    password: String!
+  }
+
   type User {
     id: ID!
     email: String!
+    password: String
   }
 `;
 
