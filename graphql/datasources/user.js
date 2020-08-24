@@ -7,7 +7,6 @@ class UserAPI extends DataSource {
   constructor(User) {
     super();
     this.User = User;
-    console.log("UserAPI -> constructor -> User", User);
   }
 
   /**
@@ -24,27 +23,25 @@ class UserAPI extends DataSource {
     return "new user";
   }
 
-  createUser({ email, password }) {
-    console.log("createUser -> email, password", email, password);
-    return bcrypt.genSalt(10, function (errSalt, salt) {
-      return bcrypt.hash(password, salt, function (errHash, hash) {
-        console.log("createUser -> hash", hash);
-        console.log("createUser -> newUser", this);
+  async createUser({ email, password: pwd }) {
+    const alreadyExist = await this.User.findOne({ email });
 
-        return null;
-        const newUser = new this.User({ email, password: hash });
+    if (alreadyExist) {
+      throw new Error("User exists already!");
+    }
 
-        return newUser
-          .save()
-          .then((res) => {
-            // eslint-disable-next-line no-underscore-dangle
-            return { ...res._doc };
-          })
-          .catch((err) => {
-            throw err;
-          });
-      });
-    });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(pwd, salt);
+
+    const newUser = new this.User({ email, password: hashedPassword });
+
+    const res = await newUser.save();
+
+    const {
+      _doc: { password, ...rest },
+    } = res;
+
+    return rest;
   }
 }
 

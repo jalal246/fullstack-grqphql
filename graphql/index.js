@@ -2,21 +2,7 @@ const { ApolloServer } = require("apollo-server-express");
 
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
-
-const EventAPI = require("./datasources/event");
-const UserAPI = require("./datasources/user");
-
-const Event = require("../db/event");
-const User = require("../db/user");
-
-const eventAPI = new EventAPI(Event);
-const userAPI = new UserAPI(User);
-
-// set up any dataSources our resolvers need
-const dataSources = () => ({
-  eventAPI,
-  userAPI,
-});
+const dataSources = require("./datasources");
 
 // the function that sets up the global context for each resolver, using the req
 // eslint-disable-next-line no-unused-vars
