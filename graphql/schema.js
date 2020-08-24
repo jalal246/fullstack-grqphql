@@ -9,6 +9,7 @@ const typeDefs = gql`
 
   type Mutation {
     createEvent(eventInput: EventInput!): Event
+    createUser(userInput: UserInput!): User
     login(email: String!): String
   }
 

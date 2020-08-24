@@ -6,8 +6,11 @@ const Query = {
 };
 
 const Mutation = {
-  createEvent: (_, { eventInput: { name, desc, price } }, { dataSources }) => {
-    return dataSources.eventAPI.createEvent({ name, desc, price });
+  createEvent: (_, { eventInput }, { dataSources }) => {
+    return dataSources.eventAPI.createEvent(eventInput);
+  },
+  createUser: (_, { userInput }, { dataSources }) => {
+    return dataSources.userAPI.createUser(userInput);
   },
   login: async (_, { email }, { dataSources }) => {
     const user = await dataSources.userAPI.findOrCreateUser({ email });

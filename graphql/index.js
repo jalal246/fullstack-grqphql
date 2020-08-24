@@ -3,17 +3,19 @@ const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
 
-const EventAPI = require("../datasources/event");
-const UserAPI = require("../datasources/user");
+const EventAPI = require("./datasources/event");
+const UserAPI = require("./datasources/user");
 
-const createStore = require("./utils");
+const Event = require("../db/event");
+const User = require("../db/user");
 
-const store = createStore();
+const eventAPI = new EventAPI(Event);
+const userAPI = new UserAPI(User);
 
 // set up any dataSources our resolvers need
 const dataSources = () => ({
-  eventAPI: new EventAPI(store),
-  userAPI: new UserAPI({}),
+  eventAPI,
+  userAPI,
 });
 
 // the function that sets up the global context for each resolver, using the req
