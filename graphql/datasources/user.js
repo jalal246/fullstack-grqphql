@@ -19,8 +19,28 @@ class UserAPI extends DataSource {
     this.context = config.context;
   }
 
-  findOrCreateUser() {
-    return "new user";
+  async findByID(id) {
+    const user = await this.User.findById(id);
+
+    return user;
+  }
+
+  async addEventByUserID({ userID, event }) {
+    const user = await this.findByID(userID);
+
+    if (user && event) {
+      user.createdEvents.push(event);
+
+      const res = await user.save();
+
+      const {
+        _doc: { password, ...rest },
+      } = res;
+
+      return rest;
+    }
+
+    throw new Error(`User ID not found`);
   }
 
   async createUser({ email, password: pwd }) {

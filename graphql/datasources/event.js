@@ -4,7 +4,7 @@
 const { DataSource } = require("apollo-datasource");
 
 class EventAPI extends DataSource {
-  constructor(Event) {
+  constructor(Event, userAPI) {
     super();
     this.Event = Event;
   }
@@ -43,18 +43,19 @@ class EventAPI extends DataSource {
       });
   }
 
-  createEvent({ name, desc, price }) {
-    const newEvent = new this.Event({ name, desc, price });
+  async createEvent({ name, desc, price }) {
+    const newEvent = new this.Event({
+      name,
+      desc,
+      price,
+      creator: "5f44290347833d37c8786c19",
+    });
 
-    return newEvent
-      .save()
-      .then((res) => {
-        // eslint-disable-next-line no-underscore-dangle
-        return { ...res._doc };
-      })
-      .catch((err) => {
-        throw err;
-      });
+    const res = await newEvent.save();
+
+    const createdEvent = { ...res._doc };
+
+    return createdEvent;
   }
 }
 

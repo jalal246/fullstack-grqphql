@@ -10,7 +10,17 @@ const typeDefs = gql`
   type Mutation {
     createEvent(eventInput: EventInput!): Event
     createUser(userInput: UserInput!): User
-    login(email: String!): String
+    addEventByUserID(userEventInput: UserEventInput!): User
+  }
+
+  input UserEventInput {
+    userID: ID!
+    event: EventInputRecord!
+  }
+
+  input EventInputRecord {
+    _id: ID!
+    name: String
   }
 
   input EventInput {
@@ -33,7 +43,7 @@ const typeDefs = gql`
   }
 
   type User {
-    id: ID!
+    _id: ID!
     email: String!
     password: String
   }
