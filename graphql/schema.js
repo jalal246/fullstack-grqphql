@@ -12,7 +12,7 @@ const typeDefs = gql`
     createEvent(eventInput: EventInput!): Event
     createUser(userInput: UserInput!): User
     addEventByUserID(userEventInput: UserEventInput!): User
-    bookEvent(eventID: ID!): Booking!
+    bookEvent(eventID: ID!, userID: ID!): Booking!
     cancelBooking(bookingID: ID!): Event!
   }
 

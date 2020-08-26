@@ -1,16 +1,20 @@
 const EventAPI = require("./event");
 const UserAPI = require("./user");
+const BookingAPI = require("./booking");
 
-const Event = require("../../db/event");
-const User = require("../../db/user");
+const EventModel = require("../../db/event");
+const UserModel = require("../../db/user");
+const BookingModel = require("../../db/booking");
 
-const userAPI = new UserAPI(User);
-const eventAPI = new EventAPI(Event, userAPI);
+const userAPI = new UserAPI(UserModel);
+const eventAPI = new EventAPI(EventModel);
+const bookingAPI = new BookingAPI(BookingModel);
 
 // set up any dataSources our resolvers need
 const dataSources = () => ({
   eventAPI,
   userAPI,
+  bookingAPI,
 });
 
 module.exports = dataSources;

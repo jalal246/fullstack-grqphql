@@ -14,8 +14,8 @@ const Mutation = {
   addEventByUserID: async (_, { userEventInput }, { dataSources }) => {
     return dataSources.userAPI.addEventByUserID(userEventInput);
   },
-  bookEvent: async (_, { eventID }, { dataSources }) => {
-    return dataSources.bookingAPI.bookEvent(eventID);
+  bookEvent: async (_, args, { dataSources }) => {
+    return dataSources.bookingAPI.bookEvent(args);
   },
   cancelBooking: async (_, { bookingID }, { dataSources }) => {
     return dataSources.bookingAPI.cancelBooking(bookingID);
