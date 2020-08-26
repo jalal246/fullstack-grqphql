@@ -31,17 +31,12 @@ class EventAPI extends DataSource {
       });
   }
 
-  getAllEvents() {
-    return this.Event.find()
-      .populate("creator")
-      .then((events) => {
-        return events.map((event) => ({
-          ...event._doc,
-        }));
-      })
-      .catch((err) => {
-        throw err;
-      });
+  async getAllEvents() {
+    const events = await this.Event.find().populate("creator");
+
+    return events.map((event) => ({
+      ...event._doc,
+    }));
   }
 
   async createEvent({ name, desc, price }) {
