@@ -5,6 +5,9 @@ const Query = {
   getBookingByID: async (_, args, { dataSources }) => {
     return dataSources.bookingAPI.getBookingByID(args);
   },
+  getAllBookings: async (_, __, { dataSources }) => {
+    return dataSources.bookingAPI.getAllBookings();
+  },
 };
 
 const Mutation = {
@@ -20,8 +23,8 @@ const Mutation = {
   bookEvent: async (_, args, { dataSources }) => {
     return dataSources.bookingAPI.bookEvent(args);
   },
-  cancelBooking: async (_, { bookingID }, { dataSources }) => {
-    return dataSources.bookingAPI.cancelBooking(bookingID);
+  cancelBooking: async (_, args, { dataSources }) => {
+    return dataSources.bookingAPI.cancelBooking(args);
   },
 };
 

@@ -11,11 +11,11 @@ class BookingAPI extends DataSource {
   }
 
   async getAllBookings() {
-    const bookings = await this.Booking.find().populate("user");
+    const bookings = await this.Booking.find();
 
-    return bookings.map((event) => ({
-      ...event._doc,
-    }));
+    return bookings.map(async (booking) => {
+      return this.getBookingByID(booking);
+    });
   }
 
   async bookEvent({ eventID, userID }) {
@@ -39,16 +39,20 @@ class BookingAPI extends DataSource {
 
     if (booking) {
       const {
-        _doc: { createdAt: cDT, updatedAt: uDT, event: eventID, user: userID },
+        createdAt: cDT,
+        updatedAt: uDT,
+        event: eventID,
+        user: userID,
       } = booking;
 
       const event = await this.eventAPI.getEventById({ _id: eventID });
       const user = await this.userAPI.getUserID({ _id: userID });
 
-      const createdAt = new Date(cDT).toISOString();
-      const updatedAt = new Date(uDT).toISOString();
+      const createdAt = cDT.toISOString();
+      const updatedAt = uDT.toISOString();
 
       return {
+        _id,
         event,
         user,
         createdAt,
@@ -59,7 +63,13 @@ class BookingAPI extends DataSource {
     throw new Error("Booking not found!");
   }
 
-  cancelBooking({ bookingID }) {}
+  async cancelBooking({ bookingID }) {
+    const booking = await this.getBookingByID({ _id: bookingID });
+
+    await this.Booking.deleteOne({ _id: bookingID });
+
+    return booking.event;
+  }
 }
 
 module.exports = BookingAPI;
