@@ -19,14 +19,14 @@ class UserAPI extends DataSource {
     this.context = config.context;
   }
 
-  async findByID(id) {
-    const user = await this.User.findById(id);
+  async getUserID({ _id }) {
+    const user = await this.User.findById(_id);
 
     return user;
   }
 
   async addEventByUserID({ userID, event }) {
-    const user = await this.findByID(userID);
+    const user = await this.getUserID({ _id: userID });
 
     if (user && event) {
       user.createdEvents.push(event);

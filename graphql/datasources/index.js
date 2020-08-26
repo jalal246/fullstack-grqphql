@@ -8,7 +8,8 @@ const BookingModel = require("../../db/booking");
 
 const userAPI = new UserAPI(UserModel);
 const eventAPI = new EventAPI(EventModel);
-const bookingAPI = new BookingAPI(BookingModel);
+
+const bookingAPI = new BookingAPI(BookingModel, userAPI, eventAPI);
 
 // set up any dataSources our resolvers need
 const dataSources = () => ({

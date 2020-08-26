@@ -6,6 +6,7 @@ const typeDefs = gql`
     events: [Event]!
     bookings: [Booking]!
     user: User
+    getBookingByID(_id: ID!): Booking
   }
 
   type Mutation {

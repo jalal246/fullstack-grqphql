@@ -2,6 +2,9 @@ const Query = {
   events: (_, __, { dataSources }) => dataSources.eventAPI.getAllEvents(),
   event: (_, { id }, { dataSources }) =>
     dataSources.eventAPI.getEventById({ id }),
+  getBookingByID: async (_, args, { dataSources }) => {
+    return dataSources.bookingAPI.getBookingByID(args);
+  },
 };
 
 const Mutation = {
