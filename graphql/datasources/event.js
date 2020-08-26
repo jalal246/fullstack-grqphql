@@ -19,16 +19,10 @@ class EventAPI extends DataSource {
     this.context = config.context;
   }
 
-  getEventById({ id }) {
-    return this.Event.find()
-      .then((events) => {
-        return events.map((event) => ({
-          ...event._doc,
-        }));
-      })
-      .catch((err) => {
-        throw err;
-      });
+  async getEventById({ _id }) {
+    const event = await this.Event.findOne({ _id });
+
+    return event;
   }
 
   async getAllEvents() {
