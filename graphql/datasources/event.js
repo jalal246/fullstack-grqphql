@@ -4,9 +4,9 @@
 const { DataSource } = require("apollo-datasource");
 
 class EventAPI extends DataSource {
-  constructor(Event) {
+  constructor(EventMode) {
     super();
-    this.Event = Event;
+    this.Event = EventMode;
   }
 
   /**

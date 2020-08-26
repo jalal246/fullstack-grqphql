@@ -4,9 +4,9 @@ const { DataSource } = require("apollo-datasource");
 const bcrypt = require("bcryptjs");
 
 class UserAPI extends DataSource {
-  constructor(User) {
+  constructor(UserModel) {
     super();
-    this.User = User;
+    this.User = UserModel;
   }
 
   /**
