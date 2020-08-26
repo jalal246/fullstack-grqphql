@@ -14,6 +14,12 @@ const Mutation = {
   addEventByUserID: async (_, { userEventInput }, { dataSources }) => {
     return dataSources.userAPI.addEventByUserID(userEventInput);
   },
+  bookEvent: async (_, { eventID }, { dataSources }) => {
+    return dataSources.bookingAPI.bookEvent(eventID);
+  },
+  cancelBooking: async (_, { bookingID }, { dataSources }) => {
+    return dataSources.bookingAPI.cancelBooking(bookingID);
+  },
 };
 
 module.exports = { Query, Mutation };

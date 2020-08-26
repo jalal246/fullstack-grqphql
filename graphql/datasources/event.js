@@ -4,7 +4,7 @@
 const { DataSource } = require("apollo-datasource");
 
 class EventAPI extends DataSource {
-  constructor(Event, userAPI) {
+  constructor(Event) {
     super();
     this.Event = Event;
   }
@@ -33,6 +33,7 @@ class EventAPI extends DataSource {
 
   getAllEvents() {
     return this.Event.find()
+      .populate("creator")
       .then((events) => {
         return events.map((event) => ({
           ...event._doc,

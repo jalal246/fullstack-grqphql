@@ -4,6 +4,7 @@ const typeDefs = gql`
   type Query {
     event(_id: ID!): Event
     events: [Event]!
+    bookings: [Booking]!
     user: User
   }
 
@@ -11,6 +12,16 @@ const typeDefs = gql`
     createEvent(eventInput: EventInput!): Event
     createUser(userInput: UserInput!): User
     addEventByUserID(userEventInput: UserEventInput!): User
+    bookEvent(eventID: ID!): Booking!
+    cancelBooking(bookingID: ID!): Event!
+  }
+
+  type Booking {
+    _id: ID!
+    event: Event!
+    user: User!
+    createdAt: String!
+    updatedAt: String!
   }
 
   input UserEventInput {
@@ -35,6 +46,7 @@ const typeDefs = gql`
     desc: String
     price: Float
     date: String
+    creator: User!
   }
 
   input UserInput {
@@ -46,6 +58,7 @@ const typeDefs = gql`
     _id: ID!
     email: String!
     password: String
+    createdEvents: [Event]!
   }
 `;
 
