@@ -8,6 +8,7 @@ const typeDefs = gql`
     user: User
     getBookingByID(_id: ID!): Booking
     getAllBookings: [Booking]!
+    login(email: String!, password: String!): AuthData!
   }
 
   type Mutation {
@@ -16,6 +17,12 @@ const typeDefs = gql`
     addEventByUserID(userEventInput: UserEventInput!): User
     bookEvent(eventID: ID!, userID: ID!): Booking!
     cancelBooking(bookingID: ID!): Event!
+  }
+
+  type AuthData {
+    userID: ID!
+    token: String!
+    tokenExpiration: String!
   }
 
   type Booking {

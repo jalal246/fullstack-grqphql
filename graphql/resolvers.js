@@ -8,6 +8,9 @@ const Query = {
   getAllBookings: async (_, __, { dataSources }) => {
     return dataSources.bookingAPI.getAllBookings();
   },
+  login: async (_, args, { dataSources }) => {
+    return dataSources.userAPI.login(args);
+  },
 };
 
 const Mutation = {

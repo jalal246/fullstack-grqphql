@@ -1,7 +1,9 @@
 /* eslint-disable func-names */
 /* eslint-disable class-methods-use-this */
 const { DataSource } = require("apollo-datasource");
+
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 class UserAPI extends DataSource {
   constructor(UserModel) {
@@ -17,6 +19,10 @@ class UserAPI extends DataSource {
    */
   initialize(config) {
     this.context = config.context;
+  }
+
+  async getUserByEmail({ email }) {
+    return this.User.findOne({ email });
   }
 
   async getUserID({ _id }) {
@@ -44,7 +50,7 @@ class UserAPI extends DataSource {
   }
 
   async createUser({ email, password: pwd }) {
-    const alreadyExist = await this.User.findOne({ email });
+    const alreadyExist = await this.getUserByEmail({ email });
 
     if (alreadyExist) {
       throw new Error("User exists already!");
@@ -62,6 +68,39 @@ class UserAPI extends DataSource {
     } = res;
 
     return rest;
+  }
+
+  async login({ email, password }) {
+    const user = await this.getUserByEmail({ email });
+
+    if (!user) {
+      throw new Error("User doesn't exist!");
+    }
+
+    const isEqual = await bcrypt.compare(password, user.password);
+
+    if (!isEqual) {
+      throw new Error("Password is incorrect!");
+    }
+
+    const tokenExpiration = "1h";
+
+    const { _id: userID, email: userEmail } = user;
+
+    const token = jwt.sign(
+      // eslint-disable-next-line no-underscore-dangle
+      { userID: user._id, email: userEmail },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    return {
+      userID,
+      token,
+      tokenExpiration,
+    };
   }
 }
 
