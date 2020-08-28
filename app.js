@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 
 const indexRouter = require("./routes/index");
 const apolloServer = require("./graphql");
+const authHeader = require("./middleware/auth");
 
 mongoose
   .connect(
@@ -27,6 +28,8 @@ mongoose
   });
 
 const app = express();
+
+app.use(authHeader);
 
 apolloServer.applyMiddleware({ app });
 
