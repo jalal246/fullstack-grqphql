@@ -10,6 +10,16 @@ class BookingAPI extends DataSource {
     this.userAPI = userAPI;
   }
 
+  /**
+   * This is a function that gets called by ApolloServer when being setup.
+   * This function gets called with the datasource config including things
+   * like caches and context. We'll assign this.context to the request context
+   * here, so we can know about the user making requests
+   */
+  initialize(config) {
+    this.context = config.context;
+  }
+
   async getAllBookings() {
     const bookings = await this.Booking.find();
 
@@ -64,6 +74,10 @@ class BookingAPI extends DataSource {
   }
 
   async cancelBooking({ bookingID }) {
+    if (!this.context || !this.context.isAuth) {
+      throw new Error("Unauthorized!");
+    }
+
     const booking = await this.getBookingByID({ _id: bookingID });
 
     await this.Booking.deleteOne({ _id: bookingID });

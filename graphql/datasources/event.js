@@ -34,6 +34,10 @@ class EventAPI extends DataSource {
   }
 
   async createEvent({ name, desc, price }) {
+    if (!this.context || !this.context.isAuth) {
+      throw new Error("Unauthorized!");
+    }
+
     const newEvent = new this.Event({
       name,
       desc,
