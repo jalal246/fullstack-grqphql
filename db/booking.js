@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const { Schema, model } = mongoose;
 
-//
 const schema = {
   event: {
     type: Schema.Types.ObjectId,
